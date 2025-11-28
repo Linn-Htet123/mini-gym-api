@@ -21,7 +21,11 @@ import { UpdateRegistrationDto } from './dto/update-registration.dto';
 import { PaginatedResponseDto, PaginationDto } from '@app/common';
 import { RejectRegistrationDto } from './dto/reject-registration.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { RolesGuard } from '@app/common/guards/roles.guard';
+import { Roles } from '@app/common/decorators/role.decorator';
+import { UserRole } from 'src/users/entities/user.entity';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('member-packages-registrations')
 export class RegistrationsController {
   constructor(
@@ -29,6 +33,7 @@ export class RegistrationsController {
     private readonly storageService: StorageService,
   ) {}
 
+  @Roles(UserRole.MEMBER)
   @Post()
   @UseInterceptors(FileInterceptor('payment_screenshot'))
   create(
@@ -39,21 +44,26 @@ export class RegistrationsController {
     return this.registrationsService.create(dto, saveFile.filePath);
   }
 
+  @Roles(UserRole.ADMIN, UserRole.MEMBER)
   @Get()
   findAll(@Query() query: PaginationDto): Promise<PaginatedResponseDto<any>> {
     return this.registrationsService.findAll(query);
   }
 
+  @Roles(UserRole.MEMBER)
   @Get('member')
   @UseGuards(JwtAuthGuard)
   getMyPackages(@Req() req: { user: { id: string } }) {
     return this.registrationsService.findMyPackages(req.user.id);
   }
+
+  @Roles(UserRole.ADMIN, UserRole.MEMBER)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.registrationsService.findOne(id);
   }
 
+  @Roles(UserRole.ADMIN, UserRole.MEMBER)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -62,11 +72,13 @@ export class RegistrationsController {
     return this.registrationsService.update(id, updateRegistrationDto);
   }
 
+  @Roles(UserRole.ADMIN)
   @Post(':id/approve')
   async approveRegistration(@Param('id') id: string) {
     return this.registrationsService.approveRegistration(id);
   }
 
+  @Roles(UserRole.ADMIN)
   @Post(':id/reject')
   async rejectRegistration(
     @Param('id') id: string,
@@ -78,6 +90,7 @@ export class RegistrationsController {
     );
   }
 
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.registrationsService.remove(id);

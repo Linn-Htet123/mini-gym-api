@@ -141,7 +141,6 @@ export class SubscriptionsService {
         name: subscription.member.name,
         phone: subscription.member.phone,
         address: subscription.member.address,
-        status: subscription.member.status,
       },
       package: {
         id: subscription.package.id,

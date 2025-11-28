@@ -259,7 +259,6 @@ export class CheckInsService {
         id: member.id,
         name: member.name,
         phone: member.phone,
-        status: member.status,
       },
       subscription: validation.subscription
         ? {
