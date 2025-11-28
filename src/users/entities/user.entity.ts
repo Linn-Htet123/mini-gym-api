@@ -8,10 +8,12 @@ import {
 } from 'typeorm';
 import { Member } from 'src/members/entities/member.entity';
 
-export enum UserRole {
-  MEMBER = 'member',
-  ADMIN = 'admin',
-}
+export const UserRole = {
+  MEMBER: 'member',
+  ADMIN: 'admin',
+} as const;
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
 @Entity('users')
 export class User {
