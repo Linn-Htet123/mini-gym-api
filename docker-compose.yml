@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16
+    container_name: gym-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gymuser
+      POSTGRES_PASSWORD: gympass
+      POSTGRES_DB: gymdb
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gymuser -d gymdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gym-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: gym-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "1234:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gym-network
+
+volumes:
+  pgdata:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  gym-network:
+    driver: bridge
