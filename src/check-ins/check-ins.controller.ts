@@ -13,7 +13,6 @@ import { Roles } from '@app/common/decorators/role.decorator';
 export class CheckInsController {
   constructor(private readonly checkInsService: CheckInsService) {}
 
-  @Roles(UserRole.ADMIN)
   @Public()
   @Post()
   async checkIn(@Body() createCheckInDto: CreateCheckInDto) {

@@ -1,98 +1,145 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📦 Deliverables
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend GitHub Repository: https://github.com/Linn-Htet123/mini-gym-api.git
+Frontend GitHub Repository: https://github.com/Linn-Htet123/mini-gym-ui.git
+Loom Demo Video: https://drive.google.com/file/d/1kfYwcRMERTjLhpah9gqVTJ3Uss2Nf9KJ/view?usp=sharing
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Overview
 
-## Description
+The Gym Check-in System is built using a modular monolithic architecture
+with NestJS and follows Domain-Driven Design (DDD) principles.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# 🚀 Setup Instructions
 
-## Project setup
+### Prerequisites
 
-```bash
-$ npm install
-```
+- Node.js 18+\
+- Docker\
+- npm
 
-## Compile and run the project
+### Steps
 
-```bash
-# development
-$ npm run start
+    git clone https://github.com/Linn-Htet123/mini-gym-api
+    npm install
+    cp .env.example .env
+    docker-compose up -d
+    npm run migration:run
+    npm run seed
+    npm run start:dev
 
-# watch mode
-$ npm run start:dev
+### Access
 
-# production mode
-$ npm run start:prod
-```
+- API: http://localhost:3000\
+- Docs: /api\
+- pgAdmin: http://localhost:1234\
+- Default admin: admin@gym.com / Admin@123
 
-## Run tests
+## Architecture Layers
 
-```bash
-# unit tests
-$ npm run test
+### 1. Presentation Layer
 
-# e2e tests
-$ npm run test:e2e
+- **Controllers**: Handle HTTP requests/responses\
+- **DTOs**: Validation\
+- **Guards & Interceptors**: Auth, authorization, formatting\
+- **WebSocket Gateway**: Real-time notifications
 
-# test coverage
-$ npm run test:cov
-```
+### 2. Application Layer
 
-## Deployment
+- **Services**: Business logic\
+- **Use Cases**: Registration, check-in, subscription\
+- **Event Handlers**: Subscription expiry
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 3. Domain Layer
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **Entities**\
+- **Value Objects**\
+- **Domain Logic**
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+### 4. Infrastructure Layer
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- **TypeORM**\
+- **PostgreSQL**\
+- **File Uploads**\
+- **JWT Authentication**
 
-## Resources
+# 🗂️ Module Structure
 
-Check out a few resources that may come in handy when working with NestJS:
+    src/
+    ├── auth/
+    ├── users/
+    ├── members/
+    ├── membership-packages/
+    ├── registrations/
+    ├── subscriptions/
+    ├── check-ins/
+    ├── notifications/
+    ├── gateways/
+    ├── trainers/
+    ├── trainer-subscriptions/
+    └── common/
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+    db/
+    ├── datasource.ts
+    ├── migrations/
+    └── seeds/
 
-## Support
+# 🛠️ Technology Stack
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Backend
 
-## Stay in touch
+- NestJS\
+- TypeORM\
+- PostgreSQL\
+- Passport + JWT\
+- Socket.IO\
+- Multer\
+- Node-cron
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### DevOps
 
-## License
+- Docker\
+- TypeScript strict\
+- ESLint + Prettier
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# 🗄️ Database Schema
+
+### Core Tables
+
+- users\
+- members\
+- membership_packages\
+- member_registrations\
+- subscriptions\
+- check_ins\
+- notifications\
+- trainers\
+- trainer_subscriptions
+
+# ✅ Features Implemented
+
+- Registration with screenshot upload\
+- Package CRUD\
+- Approval workflow\
+- Real-time notifications\
+- Check-in validation\
+- Subscription monitoring\
+- Trainer management\
+- JWT auth\
+- Migrations & seeds\
+- Docker support
+
+# 🎯 Design Decisions
+
+- Migrations ensure DB consistency\
+- Modular architecture\
+- WebSocket real-time updates\
+- JWT for scalability\
+- Cron for subscription automation\
+- Local upload (extendable to S3)
+
+# 📝 Notes
+
+- Timestamps use UTC\
+- Uploads stored in `/uploads`\
+- Notifications persist\
+- Cron auto-updates subscription status

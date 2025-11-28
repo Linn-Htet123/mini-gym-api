@@ -17,13 +17,14 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from '@app/common/guards/roles.guard';
 import { Roles } from '@app/common/decorators/role.decorator';
 import { UserRole } from 'src/users/entities/user.entity';
+import { Public } from '@app/common/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('members')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
-  @Roles(UserRole.ADMIN, UserRole.MEMBER)
+  @Public()
   @Post('/create')
   @HttpCode(HttpStatus.CREATED)
   async create(
